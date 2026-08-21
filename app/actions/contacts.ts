@@ -9,13 +9,11 @@ export async function sendContactForm(formData: {
   message: string;
 }) {
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const RESEND_FROM_EMAIL =
-    process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-  const CONTACT_TO_EMAIL =
-    process.env.CONTACT_TO_EMAIL || "matthewsrickypro@gmail.com";
+  const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
+  const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL;
 
-  if (!RESEND_API_KEY) {
-    console.error("Missing RESEND_API_KEY environment variable");
+  if (!RESEND_API_KEY || !CONTACT_TO_EMAIL || !RESEND_FROM_EMAIL) {
+    console.error("Missing RESEND_API_KEY, RESEND_FROM_EMAIL, or CONTACT_TO_EMAIL environment variable");
     return { success: false, error: "Email service not configured" };
   }
 
