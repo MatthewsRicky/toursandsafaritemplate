@@ -19,7 +19,7 @@ const reasons = [
 
 export default function WhyUs() {
   return (
-    <section className="bg-slate-900 py-20 text-white">
+    <section className="bg-slate-900 py-20 text-white shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">

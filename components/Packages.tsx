@@ -46,7 +46,10 @@ const packages = [
 
 export default function Packages() {
   return (
-    <section id="packages" className="bg-amber-50 py-20">
+    <section
+      id="packages"
+      className="bg-amber-50 py-20 shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">

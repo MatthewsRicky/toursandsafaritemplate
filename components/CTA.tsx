@@ -1,6 +1,6 @@
 export default function CTA() {
   return (
-    <section className="bg-emerald-700 py-20 text-white">
+    <section className="bg-emerald-700 py-20 text-white shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 lg:flex-row lg:text-left lg:px-8">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-200">

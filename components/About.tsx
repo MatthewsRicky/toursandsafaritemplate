@@ -9,7 +9,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
+      className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
     >
       <div className="grid items-center gap-10 lg:grid-cols-2">
         <div>

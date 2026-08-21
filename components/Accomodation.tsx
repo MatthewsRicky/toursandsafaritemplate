@@ -19,7 +19,7 @@ const stays = [
 
 export default function Accomodation() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
       <div className="mb-10 text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
           Accommodation

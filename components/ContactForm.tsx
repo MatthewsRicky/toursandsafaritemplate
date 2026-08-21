@@ -2,7 +2,7 @@ export default function ContactForm() {
   return (
     <section
       id="contact"
-      className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
+      className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
     >
       <div className="grid gap-10 lg:grid-cols-[1.1fr_1.4fr]">
         <div>
