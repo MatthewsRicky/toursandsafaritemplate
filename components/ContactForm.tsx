@@ -1,4 +1,41 @@
+"use client";
+
+import { useState } from "react";
+
 export default function ContactForm() {
+  const [submitting, setSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSubmitting(true);
+    setStatusMessage(null);
+
+    const fd = new FormData(e.currentTarget);
+    const payload = Object.fromEntries(fd.entries());
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setStatusMessage("Message sent — thank you!");
+        e.currentTarget.reset();
+      } else {
+        setStatusMessage(data?.error || "Failed to send message");
+      }
+    } catch (err) {
+      setStatusMessage("Failed to send message");
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <section
       id="contact"
@@ -37,12 +74,16 @@ export default function ContactForm() {
           </div>
         </div>
 
-        <form className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+        >
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="block text-sm font-medium text-slate-700">
               Full name
               <input
                 required
+                name="fullName"
                 type="text"
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
                 placeholder="Your name"
@@ -52,6 +93,7 @@ export default function ContactForm() {
               Email address
               <input
                 required
+                name="email"
                 type="email"
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
                 placeholder="you@example.com"
@@ -61,6 +103,7 @@ export default function ContactForm() {
               Phone number
               <input
                 required
+                name="phone"
                 type="tel"
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
                 placeholder="+254 ..."
@@ -70,6 +113,7 @@ export default function ContactForm() {
               Number of travelers
               <input
                 required
+                name="travelers"
                 type="number"
                 min="1"
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
@@ -80,13 +124,17 @@ export default function ContactForm() {
               Travel dates
               <input
                 required
+                name="dates"
                 type="date"
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
               />
             </label>
             <label className="block text-sm font-medium text-slate-700">
               Destination / package
-              <select className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition">
+              <select
+                name="destination"
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
+              >
                 <option>Maasai Mara</option>
                 <option>Amboseli</option>
                 <option>Tsavo</option>
@@ -101,6 +149,7 @@ export default function ContactForm() {
           <label className="mt-5 block text-sm font-medium text-slate-700">
             Message / special requests
             <textarea
+              name="message"
               rows={5}
               className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
               placeholder="Tell us about your ideal trip, interests, accommodation preferences, or special needs."
@@ -109,10 +158,14 @@ export default function ContactForm() {
 
           <button
             type="submit"
-            className="mt-6 inline-flex rounded-full bg-amber-400 px-6 py-3 font-semibold text-slate-900 transition hover:bg-amber-300"
+            disabled={submitting}
+            className="mt-6 inline-flex rounded-full bg-amber-400 px-6 py-3 font-semibold text-slate-900 transition hover:bg-amber-300 disabled:opacity-60"
           >
-            Send Enquiry
+            {submitting ? "Sending…" : "Send Enquiry"}
           </button>
+          {statusMessage && (
+            <p className="mt-3 text-sm text-slate-700">{statusMessage}</p>
+          )}
         </form>
       </div>
     </section>
