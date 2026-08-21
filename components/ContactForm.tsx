@@ -1,0 +1,120 @@
+export default function ContactForm() {
+  return (
+    <section
+      id="contact"
+      className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
+    >
+      <div className="grid gap-10 lg:grid-cols-[1.1fr_1.4fr]">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
+            Contact & booking
+          </p>
+          <h2 className="mt-4 text-3xl font-bold text-slate-900 sm:text-4xl">
+            Tell us where you want to go, and we’ll design the right journey.
+          </h2>
+          <p className="mt-5 text-lg text-slate-600">
+            Share your preferred travel dates, group size, and dream
+            destinations. We’ll plan a custom safari or beach escape around your
+            needs.
+          </p>
+          <div className="mt-8 space-y-4 text-sm text-slate-700">
+            <div>
+              <span className="font-semibold text-slate-900">
+                Travel dates:
+              </span>{" "}
+              Flexible planning and seasonal advice.
+            </div>
+            <div>
+              <span className="font-semibold text-slate-900">Guests:</span>{" "}
+              Adults and children catered for.
+            </div>
+            <div>
+              <span className="font-semibold text-slate-900">
+                Destinations:
+              </span>{" "}
+              Maasai Mara, Amboseli, Tsavo, Samburu, Naivasha, Diani, and more.
+            </div>
+          </div>
+        </div>
+
+        <form className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="grid gap-5 sm:grid-cols-2">
+            <label className="block text-sm font-medium text-slate-700">
+              Full name
+              <input
+                required
+                type="text"
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
+                placeholder="Your name"
+              />
+            </label>
+            <label className="block text-sm font-medium text-slate-700">
+              Email address
+              <input
+                required
+                type="email"
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
+                placeholder="you@example.com"
+              />
+            </label>
+            <label className="block text-sm font-medium text-slate-700">
+              Phone number
+              <input
+                required
+                type="tel"
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
+                placeholder="+254 ..."
+              />
+            </label>
+            <label className="block text-sm font-medium text-slate-700">
+              Number of travelers
+              <input
+                required
+                type="number"
+                min="1"
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
+                placeholder="2"
+              />
+            </label>
+            <label className="block text-sm font-medium text-slate-700">
+              Travel dates
+              <input
+                required
+                type="date"
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
+              />
+            </label>
+            <label className="block text-sm font-medium text-slate-700">
+              Destination / package
+              <select className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition">
+                <option>Maasai Mara</option>
+                <option>Amboseli</option>
+                <option>Tsavo</option>
+                <option>Samburu</option>
+                <option>Lake Naivasha</option>
+                <option>Diani Coast</option>
+                <option>Custom itinerary</option>
+              </select>
+            </label>
+          </div>
+
+          <label className="mt-5 block text-sm font-medium text-slate-700">
+            Message / special requests
+            <textarea
+              rows={5}
+              className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 outline-none transition"
+              placeholder="Tell us about your ideal trip, interests, accommodation preferences, or special needs."
+            />
+          </label>
+
+          <button
+            type="submit"
+            className="mt-6 inline-flex rounded-full bg-amber-400 px-6 py-3 font-semibold text-slate-900 transition hover:bg-amber-300"
+          >
+            Send Enquiry
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
