@@ -24,7 +24,12 @@ export default function ContactForm() {
       const data = await res.json();
       if (res.ok && data.success) {
         setStatusMessage("Message sent — thank you!");
-        e.currentTarget.reset();
+        const form =
+          (e.currentTarget as HTMLFormElement) ||
+          (e.target as HTMLElement)?.closest("form");
+        if (form && typeof (form as HTMLFormElement).reset === "function") {
+          (form as HTMLFormElement).reset();
+        }
       } else {
         setStatusMessage(data?.error || "Failed to send message");
       }
