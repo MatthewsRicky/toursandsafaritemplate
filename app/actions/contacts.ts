@@ -8,13 +8,32 @@ export async function sendContactForm(formData: {
   practiceArea: string;
   message: string;
 }) {
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
-  const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL;
+  const RESEND_API_KEY = process.env.RESEND_API_KEY?.trim();
+  const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL?.trim();
+  const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL?.trim();
 
-  if (!RESEND_API_KEY || !CONTACT_TO_EMAIL || !RESEND_FROM_EMAIL) {
-    console.error("Missing RESEND_API_KEY, RESEND_FROM_EMAIL, or CONTACT_TO_EMAIL environment variable");
-    return { success: false, error: "Email service not configured" };
+  if (!RESEND_API_KEY) {
+    console.error("Missing RESEND_API_KEY environment variable");
+    return {
+      success: false,
+      error: "Email service not configured. Add RESEND_API_KEY in Vercel project settings.",
+    };
+  }
+
+  if (!CONTACT_TO_EMAIL) {
+    console.error("Missing CONTACT_TO_EMAIL environment variable");
+    return {
+      success: false,
+      error: "Email service not configured. Add CONTACT_TO_EMAIL in Vercel project settings.",
+    };
+  }
+
+  if (!RESEND_FROM_EMAIL || RESEND_FROM_EMAIL === "onboarding@resend.dev") {
+    console.error("RESEND_FROM_EMAIL is missing or using Resend sandbox address (onboarding@resend.dev)");
+    return {
+      success: false,
+      error: "Email service not configured. Set RESEND_FROM_EMAIL to a verified sender address in Vercel.",
+    };
   }
 
   const resend = new Resend(RESEND_API_KEY);
