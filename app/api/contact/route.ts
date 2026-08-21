@@ -1,6 +1,18 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
+function getEmailConfig() {
+  const RESEND_API_KEY = process.env.RESEND_API_KEY?.trim();
+  const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL?.trim();
+  const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL?.trim();
+
+  return {
+    RESEND_API_KEY,
+    RESEND_FROM_EMAIL,
+    CONTACT_TO_EMAIL,
+  };
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -15,16 +27,36 @@ export async function POST(req: Request) {
       destination,
     } = body as Record<string, string>;
 
-    const RESEND_API_KEY = process.env.RESEND_API_KEY;
-    const RESEND_FROM_EMAIL =
-      process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-    const CONTACT_TO_EMAIL =
-      process.env.CONTACT_TO_EMAIL || "matthewsrickypro@gmail.com";
+    const { RESEND_API_KEY, RESEND_FROM_EMAIL, CONTACT_TO_EMAIL } =
+      getEmailConfig();
 
     if (!RESEND_API_KEY) {
-      console.error("Missing RESEND_API_KEY environment variable");
+      console.error(
+        "Missing RESEND_API_KEY environment variable. Configure it in Vercel and redeploy.",
+      );
       return NextResponse.json(
-        { success: false, error: "Email service not configured" },
+        {
+          success: false,
+          error:
+            "Email service not configured. Add RESEND_API_KEY in Vercel project settings.",
+        },
+        { status: 500 },
+      );
+    }
+
+    const FROM_EMAIL = RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const TO_EMAIL = CONTACT_TO_EMAIL || "matthewsrickypro@gmail.com";
+
+    if (!FROM_EMAIL || FROM_EMAIL === "onboarding@resend.dev") {
+      console.error(
+        "RESEND_FROM_EMAIL is missing or still using the Resend sandbox address. Set a verified sender in Vercel.",
+      );
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "Email service not configured. Set RESEND_FROM_EMAIL to a verified sender address in Vercel.",
+        },
         { status: 500 },
       );
     }
@@ -44,8 +76,8 @@ export async function POST(req: Request) {
     `;
 
     await resend.emails.send({
-      from: RESEND_FROM_EMAIL,
-      to: CONTACT_TO_EMAIL,
+      from: FROM_EMAIL,
+      to: TO_EMAIL,
       subject: `Website enquiry from ${fullName || "visitor"}`,
       replyTo: email,
       text: `Name: ${fullName}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`,
