@@ -21,7 +21,11 @@ export default function ContactForm() {
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const contentType = res.headers.get("content-type") || "";
+      const data = contentType.includes("application/json")
+        ? await res.json()
+        : { success: false, error: "Unexpected server response" };
+
       if (res.ok && data.success) {
         setStatusMessage("Message sent — thank you!");
         const form =
